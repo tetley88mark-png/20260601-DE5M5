@@ -109,7 +109,7 @@ def duplicates(df):
     if len(duplicates) > 0:
         logger.info("Duplicates Identified and dropped")
         logger.info(f"{duplicates}")
-        df.drop_duplicates(inplace=True)
+        df.drop_duplicates(inplace=True, ignore_index=True)
     else:
         logger.info("No Duplcation")
     return df
