@@ -15,7 +15,7 @@ customer = {"Int":["Customer ID"]}
 books = {"Int":["Id", "Customer ID"],
         "Date":["Book checkout", "Book Returned"]}
 
-folder = "data_in"
+folder = "app/data_in"
 
 # Functions
 def list_files_in_folder(folder_path, include_subfolders=False):
@@ -99,7 +99,8 @@ def df_to_sql(df,table):
 
 def dataEnrich(df):
     """Function to calculate days between dates"""
-    df["days_between"] = df["Book Returned"] - df["Book checkout"]
+    df["days_between"] = (df["Book Returned"] - df["Book checkout"]).dt.days
+    df = float_to_int(df,["days_between"])
     return df
 
 def duplicates(df):
@@ -118,11 +119,11 @@ def main():
     for file in files:
         if "book" in str(file).lower():
             mapping = books
-            output = "data_out/books.csv"
+            output = "app/data_out/books.csv"
             table = "books"
         else:
             mapping = customer
-            output = "data_out/customer.csv"
+            output = "app/data_out/customer.csv"
             table = "customer"
 
         df = pd.read_csv(file)
@@ -140,6 +141,6 @@ def main():
         except Exception as e:
             logger.info(f"Unable to write due to {e}")
         df_to_sql(df,table)
-        
+
 if __name__ == "__main__":
     main()
