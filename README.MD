@@ -20,4 +20,4 @@ Future improvement
 - file to track books borrowed being managed outside database is redundant
 - ingest in batch for evenings to collect daily changes
 
-![Power BI Dash](evidence\Screenshot 2026-06-04 105610.png)
+![Power BI Dash](evidence/Screenshot%202026-06-04%20105610.png)
