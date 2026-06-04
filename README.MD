@@ -11,8 +11,13 @@ Requirements
 - storage location for file upload
 - pipeline to ingest files into database
 - data cleanup on ingest
-- ingest in batch for evenings to collect daily changes
+- output to file and SQL Database
+- output logging to SQL
+- Power BI Dashboard
 
 Future improvement
 - direct entry as csv is unnecessary complication
 - file to track books borrowed being managed outside database is redundant
+- ingest in batch for evenings to collect daily changes
+
+![Power BI Dash](evidence\Screenshot 2026-06-04 105610.png)

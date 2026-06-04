@@ -4,7 +4,7 @@ import pyodbc
 
 from loguru import logger
 from pathlib import Path
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 # Variables
 engine = create_engine(
@@ -18,6 +18,25 @@ books = {"Int":["Id", "Customer ID"],
 folder = "app/data_in"
 
 # Functions
+def sql_sink(message):
+    record = message.record
+
+    with engine.begin() as conn:
+        conn.execute(
+            text("""
+                INSERT INTO dbo.logs
+                (log_time, level, module, message)
+                VALUES
+                (:timestamp, :level, :module, :message)
+            """),
+            {
+                "timestamp": record["time"],
+                "level": record["level"].name,
+                "module": record["module"],
+                "message": record["message"],
+            }
+        )
+
 def list_files_in_folder(folder_path, include_subfolders=False):
     """
     Lists all files in the given folder.
@@ -115,6 +134,7 @@ def duplicates(df):
     return df
 
 def main():
+    logger.add(sql_sink)
     files = list_files_in_folder(folder, include_subfolders=False)
     for file in files:
         if "book" in str(file).lower():
